@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 """Extract metadata from FL Studio .flp project files.
 
-The FLP format is not officially documented as a stable public interchange
-format. This parser is intentionally read-only and defensive: it preserves raw
-event details when a field is unknown or context-dependent.
+Michi Schneider, 2026
+https://github.com/michi-sxc/FLStats
+
+No complete FLP format documentation exists.
+The parser is read-only and defensive; it keeps the entire content of the event if a field is unknown or context-dependent.
+
+This was only possible thanks to the work of demberto with PyFLP: 
+https://github.com/demberto/PyFLP
+
 """
 
 from __future__ import annotations
