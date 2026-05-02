@@ -1,51 +1,54 @@
 # FLP Observatory Dashboard
 
-Run:
+Dashboard for browsing FL Studio `.flp` project metadata. As the `.flp` file format is a proprietary binary, there exists no official documentation so expect a lot of bugs. 
+
+## Requirements
+
+- Python 3
+- Packages listed in `requirements.txt` (Dash, dash-bootstrap-components)
+- .flp files tested from FL Studio 12.0.3 up to 25.2.5
+
+## Run
 
 ```powershell
 python flp_dashboard.py
 ```
 
-Then open:
+Then open `http://127.0.0.1:8050` in a browser.
 
-```text
-http://127.0.0.1:8050
-```
+On Windows, you can also run `launch_dashboard.cmd` or `launch_dashboard.ps1`. The launcher checks dependencies, starts the server, and opens the dashboard automatically.
+You can stop the server with CTRL+C in the terminal.
 
-Or double-click:
+## Storage
 
-```text
-launch_flp_dashboard.cmd
-```
+Metadata is parsed on the server and stored in `flp_dashboard.sqlite3`. The browser receives table pages, chart summaries, and the project detail panel.
+It is recommended to use the local file scanning instead of direct file uploads in the browser.
 
-The launcher installs missing dependencies, starts the local server, and opens the dashboard.
+## Ingestion
 
-## How It Stores Data
-
-Parsed metadata is stored server-side in `flp_dashboard.sqlite3`. The browser only receives the current page of table rows, chart summaries, and the selected project detail panel.
-
-## Ingesting Projects
-
-- Use the `Folder` input and `Scan` button for local folders. This is the fastest path because FLP bytes never pass through the browser.
-- Use `Folder upload` when accessing the dashboard from another machine/browser. Uploaded `.flp` files are copied into `.flp_dashboard_uploads` and parsed from there.
+- `Folder` input with `Scan`: reads files from a path on the server. FLP bytes stay on the server.
+- `Folder upload`: copies `.flp` files into `.flp_dashboard_uploads` and parses them from there. Use this when the browser runs on a different machine than the server.
 
 ## Duplicate Handling
 
-The main table groups files into a project family. It collapses common backup/version filename patterns such as:
+The table groups files into a project family by collapsing filename patterns such as:
 
 - `backup`, `bak`, `autosave`, `recovered`
 - `v2`, `version 3`, `rev 4`
-- date/time suffixes
+- date and time suffixes
 - `copy`, `final`, `master`, `mixdown`
 
-The detail panel still shows every physical file in that family, including older versions and exact duplicate hashes.
+The detail panel lists every file in a family, including versions and duplicate hashes.
 
-Global stats use one representative/latest FLP per project family so backups and earlier versions do not inflate plugin, sample, time, and version totals. The physical-file cards still show how many raw `.flp` files and variants are in the archive.
+Stats count one file per project family so backups and prior versions do not inflate plugin, sample, time, and version totals. File cards still report the count of `.flp` files and variants on disk.
+Duplicate detection is not perfect as some backups do not get detected (e.g. when updating to a newer FL Studio version).
 
-## Useful Files
+## Files
 
 - `flp_dashboard.py` - Dash app and SQLite ingestion/query layer
 - `flp_metadata.py` - FLP metadata parser
-- `assets/flp_dashboard.css` - dashboard styling
-- `assets/folder_upload.js` - native folder-upload helper
-- `launch_flp_dashboard.cmd` - one-click Windows launcher
+- `assets/flp_dashboard.css` - styling
+- `assets/folder_upload.js` - folder upload helper
+- `launch_flp_dashboard.cmd` - Windows launcher entry point
+- `launch_flp_dashboard.ps1` - PowerShell launcher script
+- `requirements.txt` - Python dependencies
