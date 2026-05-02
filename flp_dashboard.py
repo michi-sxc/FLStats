@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Dash dashboard for browsing a folder full of FL Studio project files."""
+"""Dash dashboard for viewing .flp project file metadata within a folder."""
 
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ from flp_metadata import build_metadata, parse_flp
 APP_DIR = Path(__file__).resolve().parent
 DB_PATH = APP_DIR / "flp_dashboard.sqlite3"
 UPLOAD_DIR = APP_DIR / ".flp_dashboard_uploads"
-DEFAULT_SCAN_PATH = r"D:\Software Partition\Musik\FlStudioProjects"
+DEFAULT_SCAN_PATH = r"%USERPROFILE%\Documents\Image-Line\FL Studio\Projects"
 
 PAGE_SIZE = 18
 BASE_PROJECT_TABLE_STYLES = [
@@ -1316,7 +1316,7 @@ def make_layout() -> dbc.Container:
                 [
                     html.Div(
                         [
-                            html.H1("FLP Observatory", className="app-title"),
+                            html.H1("FL Stats", className="app-title"),
                             html.Div("FL Studio project catalog", className="app-subtitle"),
                         ],
                         className="brand-block",
@@ -1464,7 +1464,7 @@ app = dash.Dash(
     __name__,
     external_stylesheets=[dbc.themes.SLATE, dbc.icons.BOOTSTRAP],
     suppress_callback_exceptions=True,
-    title="FLP Observatory",
+    title="FL Stats",
     update_title=None,
 )
 server = app.server
