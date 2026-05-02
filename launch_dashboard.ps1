@@ -34,7 +34,7 @@ function Get-DashboardProcess {
     }
 }
 
-Write-Host "FLP Observatory"
+Write-Host "FL Stats"
 Write-Host "Workspace: $Root"
 
 python -c "import dash, dash_bootstrap_components" | Out-Null
