@@ -1,4 +1,4 @@
-# FLP Observatory
+# FLStats
 
 Dashboard for browsing FL Studio `.flp` project metadata and showing global FL Studio statistics.
 As the `.flp` file format is a proprietary binary, there exists no official documentation so expect a lot of bugs. 
